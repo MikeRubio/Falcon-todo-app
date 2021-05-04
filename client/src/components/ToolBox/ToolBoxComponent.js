@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from "react";
-
-function ToolBoxComponent({ setTodoList, todoList }) {
+import api from "../../Api/api";
+function ToolBoxComponent({ setTodoAdded }) {
   const [title, setTtitle] = useState("");
-  const [desc, setDesc] = useState("");
+  const [description, setdescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     setSubmitting(title.length > 0);
   }, [title]);
 
+  const createTodo = async () => {
+    const result = await api.createTodo({ title, description });
+    if (result.status === 200) {
+      setTtitle("");
+      setdescription("");
+      setTodoAdded(true);
+    }
+  };
+
   const onSubmitHandler = (ev) => {
     ev.preventDefault();
-    setTodoList([
-      ...todoList,
-      {
-        title,
-        desc,
-      },
-    ]);
-    setTtitle("");
-    setDesc("");
+    createTodo();
   };
+
   return (
     <form className="ui form" onSubmit={onSubmitHandler}>
       <div className="two fields">
@@ -38,8 +40,8 @@ function ToolBoxComponent({ setTodoList, todoList }) {
           <input
             type="text"
             name="description"
-            value={desc}
-            onChange={(e) => setDesc(e.target.value)}
+            value={description}
+            onChange={(e) => setdescription(e.target.value)}
           ></input>
         </div>
       </div>

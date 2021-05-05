@@ -24,12 +24,24 @@ function App() {
       </div>
       <div className="ui three column grid">
         <div className="column">
+          <h1>To DO</h1>
           <CardComponent
-            todoList={todoList}
+            todoList={todoList.filter(
+              (complete) => complete.completed == false
+            )}
             setTodoAdded={setTodoAdded}
           ></CardComponent>
         </div>
-        <div className="column"></div>
+        <div className="column">
+          <div className="ui vertical divider">Hire me</div>
+        </div>
+        <div className="column">
+          <h1>Completed</h1>
+          <CardComponent
+            todoList={todoList.filter((complete) => complete.completed == true)}
+            setTodoAdded={setTodoAdded}
+          ></CardComponent>
+        </div>
       </div>
     </div>
   );

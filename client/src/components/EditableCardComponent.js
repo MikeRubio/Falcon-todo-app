@@ -5,7 +5,6 @@ function EditableCardComponent({ elm, setEditing, setTodoAdded }) {
   const [ediatbleDescription, setEdiatbleDescription] = useState(
     elm.description
   );
-
   const [editableTitle, setEditableTitle] = useState(elm.title);
 
   const updateElement = async (id) => {
@@ -23,7 +22,7 @@ function EditableCardComponent({ elm, setEditing, setTodoAdded }) {
     <div className="ui fluid card" id="editable-card" key={elm.id}>
       <div className="content">
         <div className="header">
-          <div class="ui transparent input">
+          <div className="ui transparent input">
             <input
               type="text"
               name="editable-title"
@@ -33,7 +32,7 @@ function EditableCardComponent({ elm, setEditing, setTodoAdded }) {
           </div>
         </div>
         <div className="description">
-          <div class="ui transparent input">
+          <div className="ui transparent input">
             <input
               type="text"
               name="editable-description"

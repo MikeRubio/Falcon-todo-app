@@ -6,11 +6,25 @@ import "./CardComponent.css";
  * TODO
  * add styling to identify what card is under edit
  */
-function CardComponent({ todoList, setTodoAdded }) {
+function CardComponent({
+  todoList,
+  setTodoAdded,
+  // setTodoCompleted,
+  // todoCompleted,
+}) {
   const [editing, setEditing] = useState("");
 
   const deleteElement = async (elm) => {
     const result = await api.deleteTodo(elm.id);
+    if (result.status === 200) {
+      setTodoAdded(true);
+    }
+  };
+
+  const changeStateElement = async (elm) => {
+    const result = await api.updateTodo(elm.id, {
+      completed: !elm.completed,
+    });
     if (result.status === 200) {
       setTodoAdded(true);
     }
@@ -41,7 +55,10 @@ function CardComponent({ todoList, setTodoAdded }) {
                   className="right floated circular blue edit outline icon Change"
                   onClick={() => editElement(elm)}
                 ></i>
-                <i className="right floated circular teal flag checkered icon"></i>
+                <i
+                  className="right floated circular teal flag checkered icon"
+                  onClick={() => changeStateElement(elm)}
+                ></i>
                 <div className="header">{elm.title}</div>
                 <div className="description">
                   <p>{elm.description}</p>

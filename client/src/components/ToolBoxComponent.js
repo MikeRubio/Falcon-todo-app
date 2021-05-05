@@ -10,14 +10,16 @@ function ToolBoxComponent({ setTodoAdded }) {
   }, [title]);
 
   const createTodo = async () => {
-    const result = await api.createTodo({
-      title,
-      description,
-    });
-    if (result.status === 200) {
-      setTtitle("");
-      setdescription("");
-      setTodoAdded(true);
+    if (title) {
+      const result = await api.createTodo({
+        title,
+        description,
+      });
+      if (result.status === 200) {
+        setTtitle("");
+        setdescription("");
+        setTodoAdded(true);
+      }
     }
   };
 
@@ -54,7 +56,6 @@ function ToolBoxComponent({ setTodoAdded }) {
       >
         Add
       </button>
-      <div className="ui divider"></div>
     </form>
   );
 }

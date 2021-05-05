@@ -9,4 +9,6 @@ export default {
   getTodo: (params) => API.get("/tasks", { params }),
   //Create a task
   createTodo: (item) => API.post("/tasks", item),
+  //Delete a task
+  deleteTodo: (id) => API.delete(`/tasks/${id}`),
 };

@@ -20,7 +20,10 @@ function App() {
   return (
     <div className="ui container">
       <ToolBoxComponent setTodoAdded={setTodoAdded} />
-      <CardComponent todoList={todoList}></CardComponent>
+      <CardComponent
+        todoList={todoList}
+        setTodoAdded={setTodoAdded}
+      ></CardComponent>
     </div>
   );
 }

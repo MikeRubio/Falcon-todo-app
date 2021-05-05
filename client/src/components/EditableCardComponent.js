@@ -1,25 +1,18 @@
 import React, { useState } from "react";
-import api from "../Api/api";
 
-function EditableCardComponent({ elm, setEditing, setTodoAdded }) {
-  const [ediatbleDescription, setEdiatbleDescription] = useState(
-    elm.description
-  );
-  const [editableTitle, setEditableTitle] = useState(elm.title);
-
-  const updateElement = async (id) => {
-    const result = await api.updateTodo(id, {
-      title: editableTitle,
-      description: ediatbleDescription,
-    });
-    if (result.status === 200) {
-      setTodoAdded(true);
-      setEditing("");
-    }
-  };
+function EditableCardComponent({
+  action,
+  onUpdating,
+  title,
+  description,
+  id,
+  closeEditing,
+}) {
+  const [ediatbleDescription, setEdiatbleDescription] = useState(description);
+  const [editableTitle, setEditableTitle] = useState(title);
 
   return (
-    <div className="ui fluid card" id="editable-card" key={elm.id}>
+    <div className="ui fluid card" id="editable-card" key={id}>
       <div className="content">
         <div className="header">
           <div className="ui transparent input">
@@ -27,6 +20,7 @@ function EditableCardComponent({ elm, setEditing, setTodoAdded }) {
               type="text"
               name="editable-title"
               value={editableTitle}
+              placeholder="Title"
               onChange={(e) => setEditableTitle(e.target.value)}
             />
           </div>
@@ -37,24 +31,34 @@ function EditableCardComponent({ elm, setEditing, setTodoAdded }) {
               type="text"
               name="editable-description"
               value={ediatbleDescription}
+              placeholder="Description"
               onChange={(e) => setEdiatbleDescription(e.target.value)}
             />
           </div>
         </div>
       </div>
       <div className="extra content">
-        <div className="ui two buttons">
-          <div
-            className={`ui basic green button ${
+        <div className="ui two mini buttons">
+          <button
+            className={`ui positive button active ${
               editableTitle ? "" : "disabled"
             }`}
-            onClick={() => updateElement(elm.id)}
+            onClick={() =>
+              onUpdating
+                ? (action(id, editableTitle, ediatbleDescription),
+                  closeEditing(false))
+                : action(editableTitle, ediatbleDescription)
+            }
           >
-            Edit
-          </div>
-          <div className="ui basic red button" onClick={() => setEditing("")}>
+            {onUpdating ? "Edit" : "Create"}
+          </button>
+          <div className="or"></div>
+          <button
+            className="ui button tiny"
+            onClick={() => closeEditing(false)}
+          >
             Cancel
-          </div>
+          </button>
         </div>
       </div>
     </div>

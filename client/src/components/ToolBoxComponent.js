@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import api from "../../Api/api";
+import api from "../Api/api";
 function ToolBoxComponent({ setTodoAdded }) {
   const [title, setTtitle] = useState("");
   const [description, setdescription] = useState("");

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import ToolBoxComponent from "./components/ToolBox/ToolBoxComponent";
+import ToolBoxComponent from "./components/ToolBoxComponent";
+import CardComponent from "./components/CardComponent";
 import api from "./Api/api";
 
 function App() {
@@ -19,15 +20,7 @@ function App() {
   return (
     <div className="ui container">
       <ToolBoxComponent setTodoAdded={setTodoAdded} />
-      <ol>
-        {todoList.map((x) => {
-          return (
-            <li key={x.id}>
-              title: {x.title}, description: {x.description}
-            </li>
-          );
-        })}
-      </ol>
+      <CardComponent todoList={todoList}></CardComponent>
     </div>
   );
 }

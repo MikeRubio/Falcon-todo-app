@@ -4,7 +4,7 @@ import CardComponent from "./components/CardComponent";
 import api from "./Api/api";
 
 function App() {
-  const [todoList, setTodoList] = useState([{}]);
+  const [todoList, setTodoList] = useState([]);
   const [todoAdded, setTodoAdded] = useState(false);
 
   const getTodos = async () => {
@@ -19,11 +19,18 @@ function App() {
 
   return (
     <div className="ui container">
-      <ToolBoxComponent setTodoAdded={setTodoAdded} />
-      <CardComponent
-        todoList={todoList}
-        setTodoAdded={setTodoAdded}
-      ></CardComponent>
+      <div className="ui content" style={{ margin: "1rem" }}>
+        <ToolBoxComponent setTodoAdded={setTodoAdded} />
+      </div>
+      <div className="ui three column grid">
+        <div className="column">
+          <CardComponent
+            todoList={todoList}
+            setTodoAdded={setTodoAdded}
+          ></CardComponent>
+        </div>
+        <div className="column"></div>
+      </div>
     </div>
   );
 }

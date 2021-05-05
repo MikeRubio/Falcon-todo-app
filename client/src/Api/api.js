@@ -11,4 +11,6 @@ export default {
   createTodo: (item) => API.post("/tasks", item),
   //Delete a task
   deleteTodo: (id) => API.delete(`/tasks/${id}`),
+  //Update a task
+  updateTodo: (id, params) => API.patch(`/tasks/${id}`, params),
 };

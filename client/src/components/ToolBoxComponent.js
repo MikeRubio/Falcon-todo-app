@@ -10,7 +10,10 @@ function ToolBoxComponent({ setTodoAdded }) {
   }, [title]);
 
   const createTodo = async () => {
-    const result = await api.createTodo({ title, description });
+    const result = await api.createTodo({
+      title,
+      description,
+    });
     if (result.status === 200) {
       setTtitle("");
       setdescription("");

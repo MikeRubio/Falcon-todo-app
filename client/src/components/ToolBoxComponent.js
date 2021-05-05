@@ -54,6 +54,7 @@ function ToolBoxComponent({ setTodoAdded }) {
       >
         Add
       </button>
+      <div className="ui divider"></div>
     </form>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 function EditableCardComponent({
   action,
@@ -13,6 +13,12 @@ function EditableCardComponent({
   );
   const [editableTitle, setEditableTitle] = useState(title || "");
 
+  const inputTitleRef = useRef();
+
+  useEffect(() => {
+    inputTitleRef.current.focus();
+  });
+
   return (
     <div className="ui fluid card" id="editable-card" key={id}>
       <div className="content">
@@ -23,8 +29,9 @@ function EditableCardComponent({
               id="editable-title"
               type="text"
               name="editable-title"
-              value={editableTitle}
               placeholder="Title"
+              value={editableTitle}
+              ref={inputTitleRef}
               onChange={(e) => setEditableTitle(e.target.value)}
             />
             <label htmlFor="editable-title" className="ui label tiny">
@@ -39,8 +46,8 @@ function EditableCardComponent({
               id="editable-description"
               type="text"
               name="editable-description"
-              value={ediatbleDescription}
               placeholder="Description"
+              value={ediatbleDescription}
               onChange={(e) => setEdiatbleDescription(e.target.value)}
             />
             <label htmlFor="editable-description" className="ui label tiny">
@@ -53,9 +60,7 @@ function EditableCardComponent({
         <div className="ui two mini buttons">
           <button
             type="submit"
-            className={`ui positive button active ${
-              editableTitle ? "" : "disabled"
-            }`}
+            className={`ui positive button ${editableTitle ? "" : "disabled"}`}
             onClick={() =>
               onUpdating
                 ? (action(id, editableTitle, ediatbleDescription),

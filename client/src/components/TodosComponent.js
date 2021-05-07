@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import EditableCardComponent from "./EditableCardComponent";
 import CardComponent from "./CardComponent";
 import api from "../Api/api";
-
 function TodosComponent() {
   const [todoList, setTodoList] = useState([]);
   const [addNewTodo, setAddNewTodo] = useState(false);
@@ -11,7 +10,7 @@ function TodosComponent() {
     getTodos();
   }, []);
 
-  const displayCardCollection = (completeStatus) => {
+  const displayCardByStatus = (completeStatus) => {
     return (
       <CardComponent
         filteredTodoList={todoList.filter(
@@ -64,12 +63,12 @@ function TodosComponent() {
       setTodoList(updated);
     }
   };
-
   const updateTodos = (update) => {
     return todoList.map(
       (obj) => [update.data].find((o) => o.id === obj.id) || obj
     );
   };
+
   return (
     <div className="ui container">
       <div className="ui three column grid">
@@ -77,13 +76,17 @@ function TodosComponent() {
           <div className="ui header">
             <i
               id="addIcon"
+              title="Add new todo entry"
               tabIndex="0"
               className="right floated large blue plus circle icon"
               onClick={() => setAddNewTodo(!addNewTodo)}
+              onKeyPress={({ key }) => {
+                if (key === "Enter") setAddNewTodo(!addNewTodo);
+              }}
             ></i>
             <div className="content">
               ToDos
-              <h3 className="sub header">Click here to create a new entry</h3>
+              <div className="sub header">Click here to create a new entry</div>
             </div>
           </div>
           {addNewTodo ? (
@@ -95,7 +98,7 @@ function TodosComponent() {
           ) : (
             ""
           )}
-          {displayCardCollection(false)}
+          {displayCardByStatus(false)}
         </div>
         <div className="column">
           <div className="ui vertical divider">
@@ -104,7 +107,7 @@ function TodosComponent() {
         </div>
         <div className="column">
           <h2 className="content">Completed</h2>
-          {displayCardCollection(true)}
+          {displayCardByStatus(true)}
         </div>
       </div>
     </div>

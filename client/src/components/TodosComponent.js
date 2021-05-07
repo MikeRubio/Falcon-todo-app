@@ -5,14 +5,30 @@ import api from "../Api/api";
 
 function TodosComponent() {
   const [todoList, setTodoList] = useState([]);
-  const [todoAdded, setTodoAdded] = useState(false);
   const [addNewTodo, setAddNewTodo] = useState(false);
+
+  useEffect(() => {
+    getTodos();
+  }, []);
+
+  const displayCardCollection = (completeStatus) => {
+    return (
+      <CardComponent
+        filteredTodoList={todoList.filter(
+          (complete) => complete.completed === completeStatus
+        )}
+        updateTodo={updateTodo}
+        changeStateElement={changeStateElement}
+        deleteTodo={deleteTodo}
+      ></CardComponent>
+    );
+  };
 
   // Actions
   const getTodos = async () => {
     let response = await api.getTodo();
+    console.log(response);
     setTodoList(response.data);
-    setTodoAdded(false);
   };
   const createTodo = async (title, description) => {
     const result = await api.createTodo({
@@ -20,8 +36,8 @@ function TodosComponent() {
       description,
     });
     if (result.status === 200) {
-      setTodoAdded(true);
       setAddNewTodo(!addNewTodo);
+      setTodoList([...todoList, result.data]);
     }
   };
   const updateTodo = async (id, title, description) => {
@@ -30,7 +46,7 @@ function TodosComponent() {
       description,
     });
     if (result.status === 200) {
-      setTodoAdded(true);
+      setTodoList(updateTodos(result));
     }
   };
   const changeStateElement = async (id, completed) => {
@@ -38,52 +54,42 @@ function TodosComponent() {
       completed,
     });
     if (result.status === 200) {
-      setTodoAdded(true);
+      setTodoList(updateTodos(result));
     }
   };
-  const deleteElement = async (id) => {
+  const deleteTodo = async (id) => {
     const result = await api.deleteTodo(id);
     if (result.status === 200) {
-      setTodoAdded(true);
+      const updated = todoList.filter((obj) => obj.id !== result.data.id);
+      setTodoList(updated);
     }
   };
 
-  const displayCardCollection = (completeStatus) => {
-    return (
-      <CardComponent
-        todoList={todoList.filter(
-          (complete) => complete.completed === completeStatus
-        )}
-        setTodoAdded={setTodoAdded}
-        updateTodo={updateTodo}
-        changeStateElement={changeStateElement}
-        deleteElement={deleteElement}
-      ></CardComponent>
+  const updateTodos = (update) => {
+    return todoList.map(
+      (obj) => [update.data].find((o) => o.id === obj.id) || obj
     );
   };
-  useEffect(() => {
-    getTodos();
-  }, [todoAdded]);
-
   return (
     <div className="ui container">
       <div className="ui three column grid">
         <div className="column">
-          <h2 class="ui header">
+          <div className="ui header">
             <i
+              id="addIcon"
+              tabIndex="0"
               className="right floated large blue plus circle icon"
               onClick={() => setAddNewTodo(!addNewTodo)}
             ></i>
-            <div class="content">
+            <div className="content">
               ToDos
-              <div class="sub header">Click here to create a new entry</div>
+              <h3 className="sub header">Click here to create a new entry</h3>
             </div>
-          </h2>
+          </div>
           {addNewTodo ? (
             <EditableCardComponent
               action={createTodo}
               closeEditing={setAddNewTodo}
-              setTodoAdded={setTodoAdded}
               onUpdating={false}
             />
           ) : (
@@ -97,7 +103,7 @@ function TodosComponent() {
           </div>
         </div>
         <div className="column">
-          <h1>Completed</h1>
+          <h2 className="content">Completed</h2>
           {displayCardCollection(true)}
         </div>
       </div>

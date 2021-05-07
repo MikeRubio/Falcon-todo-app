@@ -3,11 +3,10 @@ import EditableCardComponent from "./EditableCardComponent";
 import "./CardComponent.css";
 
 function CardComponent({
-  todoList,
-  setTodoAdded,
+  filteredTodoList,
   updateTodo,
   changeStateElement,
-  deleteElement,
+  deleteTodo,
 }) {
   const [editing, setEditing] = useState("");
 
@@ -16,17 +15,16 @@ function CardComponent({
   };
 
   return (
-    <React.Fragment>
-      {todoList.map((elm) => {
+    <>
+      {filteredTodoList.map(({ id, title, description, completed }) => {
         return (
-          <div className="ui fluid card" key={elm.id}>
-            {editing === elm.id ? (
+          <div className="ui fluid card" key={id}>
+            {editing === id ? (
               <EditableCardComponent
-                id={elm.id}
-                title={elm.title}
-                description={elm.description}
+                id={id}
+                title={title}
+                description={description}
                 closeEditing={setEditing}
-                setTodoAdded={setTodoAdded}
                 action={updateTodo}
                 onUpdating={true}
               />
@@ -34,28 +32,28 @@ function CardComponent({
               <div className="content">
                 <i
                   className="right floated circular red trash alternate outline icon"
-                  onClick={() => deleteElement(elm.id)}
+                  onClick={() => deleteTodo(id)}
                 ></i>
                 <i
                   className="right floated circular blue edit outline icon Change"
-                  onClick={() => editElement(elm.id)}
+                  onClick={() => editElement(id)}
                 ></i>
                 <i
                   className={`right floated circular ${
-                    elm.completed ? "red ban" : "teal check"
+                    completed ? "red ban" : "teal check"
                   } icon`}
-                  onClick={() => changeStateElement(elm.id, !elm.completed)}
+                  onClick={() => changeStateElement(id, !completed)}
                 ></i>
-                <div className="header">{elm.title}</div>
+                <div className="header">{title}</div>
                 <div className="description">
-                  <p>{elm.description}</p>
+                  <p>{description}</p>
                 </div>
               </div>
             )}
           </div>
         );
       })}
-    </React.Fragment>
+    </>
   );
 }
 

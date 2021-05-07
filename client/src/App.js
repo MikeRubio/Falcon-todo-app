@@ -4,10 +4,10 @@ import "./App.css";
 function App() {
   return (
     <div>
-      <h2 id="title-header" class="ui center aligned header">
+      <h1 id="title-header" className="ui center aligned header">
         Todo app made for Falcon.io recruitment team
-      </h2>
-      <TodosComponent></TodosComponent>
+      </h1>
+      <TodosComponent />
     </div>
   );
 }

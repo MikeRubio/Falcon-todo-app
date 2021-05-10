@@ -12,12 +12,11 @@ function EditableCardComponent({
     description || ""
   );
   const [editableTitle, setEditableTitle] = useState(title || "");
-
   const inputTitleRef = useRef();
 
   useEffect(() => {
     inputTitleRef.current.focus();
-  });
+  }, []);
 
   return (
     <div className="ui fluid card" id="editable-card" key={id}>

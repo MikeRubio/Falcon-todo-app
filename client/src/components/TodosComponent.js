@@ -77,6 +77,7 @@ function TodosComponent() {
             <i
               id="addIcon"
               title="Add new todo entry"
+              role="button"
               tabIndex="0"
               className="right floated large blue plus circle icon"
               onClick={() => setAddNewTodo(!addNewTodo)}

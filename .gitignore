@@ -21,3 +21,6 @@ lib-cov
 *.out
 *.pid
 
+.vscode
+.eslintcache
+

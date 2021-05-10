@@ -63,7 +63,9 @@ function CardComponent({
                       if (key === "Enter") changeStateElement(id, !completed);
                     }}
                   ></i>
-                  <div className="header">{title}</div>
+                  <div className="header" title="title">
+                    {title}
+                  </div>
                   <div className="description">
                     <p>{description}</p>
                   </div>

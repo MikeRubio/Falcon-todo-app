@@ -27,7 +27,6 @@ function EditableCardComponent({
               aria-label="title"
               id="editable-title"
               type="text"
-              name="editable-title"
               placeholder="Title"
               value={editableTitle}
               ref={inputTitleRef}
@@ -59,6 +58,7 @@ function EditableCardComponent({
         <div className="ui two mini buttons">
           <button
             type="submit"
+            aria-label="submit-btn"
             className={`ui positive button ${editableTitle ? "" : "disabled"}`}
             onClick={() =>
               onUpdating

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import EditableCardComponent from "./EditableCardComponent";
-import "./CardComponent.css";
+import "./styles/CardComponent.css";
 
 function CardComponent({
   filteredTodoList,

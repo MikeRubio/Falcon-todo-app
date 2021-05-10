@@ -7,7 +7,13 @@ function TodosComponent() {
   const [addNewTodo, setAddNewTodo] = useState(false);
 
   useEffect(() => {
-    getTodos();
+    let unmounted = false;
+    if (!unmounted) {
+      getTodos();
+    }
+    return () => {
+      unmounted = true;
+    };
   }, []);
 
   const displayCardByStatus = (completeStatus) => {
@@ -26,7 +32,6 @@ function TodosComponent() {
   // Actions
   const getTodos = async () => {
     let response = await api.getTodo();
-    console.log(response);
     setTodoList(response.data);
   };
   const createTodo = async (title, description) => {
@@ -69,21 +74,23 @@ function TodosComponent() {
     );
   };
 
+  const handleAddiconEvents = (e) => {
+    if (e.type === "click" || (e.type === "keydown" && e.key === "Enter")) {
+      setAddNewTodo(!addNewTodo);
+    }
+  };
   return (
     <div className="ui container">
       <div className="ui three column grid">
         <div className="column">
           <div className="ui header">
             <i
-              id="addIcon"
               title="Add new todo entry"
-              role="button"
+              aria-label="add"
               tabIndex="0"
               className="right floated large blue plus circle icon"
-              onClick={() => setAddNewTodo(!addNewTodo)}
-              onKeyPress={({ key }) => {
-                if (key === "Enter") setAddNewTodo(!addNewTodo);
-              }}
+              onClick={handleAddiconEvents}
+              onKeyDown={handleAddiconEvents}
             ></i>
             <div className="content">
               ToDos

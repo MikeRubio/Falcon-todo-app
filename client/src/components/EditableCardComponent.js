@@ -1,4 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { TodoListContext } from "./TodosComponent";
+import api from "../Api/api";
 
 function EditableCardComponent({
   action,
@@ -12,11 +14,24 @@ function EditableCardComponent({
     description || ""
   );
   const [editableTitle, setEditableTitle] = useState(title || "");
+  const [todoList, setTodoList] = useContext(TodoListContext);
+
   const inputTitleRef = useRef();
 
   useEffect(() => {
     inputTitleRef.current.focus();
   }, []);
+
+  const createTodo = async (title, description) => {
+    const result = await api.createTodo({
+      title,
+      description,
+    });
+    if (result.status === 200) {
+      setTodoList([...todoList, result.data]);
+      closeEditing(false);
+    }
+  };
 
   return (
     <div className="ui fluid card" id="editable-card" key={id}>
@@ -64,7 +79,7 @@ function EditableCardComponent({
               onUpdating
                 ? (action(id, editableTitle, ediatbleDescription),
                   closeEditing(false))
-                : action(editableTitle, ediatbleDescription)
+                : createTodo(editableTitle, ediatbleDescription)
             }
           >
             {onUpdating ? "Edit" : "Create"}

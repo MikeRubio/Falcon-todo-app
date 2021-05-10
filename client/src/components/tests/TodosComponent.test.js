@@ -1,5 +1,5 @@
 import React from "react";
-import TodosComponent from "../TodosComponent";
+import { TodosComponent } from "../TodosComponent";
 import {
   render,
   screen,
@@ -16,12 +16,10 @@ test("Component loads and display available todos", async () => {
 
 test("Add Icon click opens todo create form", async () => {
   render(<TodosComponent />);
-  const promise = Promise.resolve();
   fireEvent.click(screen.getByLabelText(/add/));
   await waitFor(() =>
-    expect(screen.findByPlaceholderText(/Title/)).toBeTruthy()
+    expect(screen.getByPlaceholderText(/Title/)).toBeTruthy()
   );
-  await act(() => promise);
 });
 
 test("Add Icon 'enter key' opens todo create form", async () => {

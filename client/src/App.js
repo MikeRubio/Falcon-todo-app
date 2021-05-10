@@ -1,5 +1,5 @@
 import React from "react";
-import TodosComponent from "./components/TodosComponent";
+import { TodosComponent } from "./components/TodosComponent";
 import "./App.css";
 function App() {
   return (

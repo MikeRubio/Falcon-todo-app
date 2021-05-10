@@ -1,7 +1,6 @@
 import React from "react";
 import EditableCardComponent from "../EditableCardComponent";
 import userEvent from "@testing-library/user-event";
-
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
@@ -19,7 +18,7 @@ test("Should be able to create todo", async () => {
   expect(screen.getByText(/Create/)).toBeInTheDocument();
 });
 
-test("Should be able to edit existing todo", async () => {
+test("Should be able to edit an existing todo", async () => {
   render(
     <EditableCardComponent
       onUpdating={true}

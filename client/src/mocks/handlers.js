@@ -35,7 +35,7 @@ export const handlers = [
       })
     );
   }),
-  rest.delete("http://localhost:1337/tasks", (req, res, ctx) => {
+  rest.delete("http://localhost:1337/tasks/01", (req, res, ctx) => {
     return res(
       ctx.json({
         id: "01",

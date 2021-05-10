@@ -36,7 +36,6 @@ test("Add Icon 'enter key' opens todo create form", async () => {
     keyCode: 13,
   });
   await waitFor(() => {
-    act(() => expect(screen.getByPlaceholderText(/Title/)).toBeTruthy());
     expect(screen.getByPlaceholderText(/Title/)).toBeTruthy();
   });
   await act(() => promise);

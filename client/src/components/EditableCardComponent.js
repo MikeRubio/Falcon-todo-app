@@ -15,6 +15,7 @@ function EditableCardComponent({
   );
   const [editableTitle, setEditableTitle] = useState(title || "");
   const [todoList, setTodoList] = useContext(TodoListContext);
+  const [inputError, setInputError] = useState(false);
 
   const inputTitleRef = useRef();
 
@@ -37,6 +38,15 @@ function EditableCardComponent({
     <div className="ui fluid card" id="editable-card" key={id}>
       <div className="content">
         <div className="header">
+          {inputError ? (
+            <div className="field" placeholder="Last Name">
+              <div className="ui pointing below red basic label">
+                Title is required
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
           <div className="ui transparent fluid input">
             <input
               aria-label="title"
@@ -46,6 +56,9 @@ function EditableCardComponent({
               value={editableTitle}
               ref={inputTitleRef}
               onChange={(e) => setEditableTitle(e.target.value)}
+              onBlur={() => {
+                setInputError(editableTitle ? false : true);
+              }}
             />
             <label htmlFor="editable-title" className="ui label tiny">
               Title

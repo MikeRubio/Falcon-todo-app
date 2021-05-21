@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import EditableCardComponent from "./EditableCardComponent";
 import CardComponent from "./CardComponent";
 import api from "../Api/api";
+import ios from "../Api/socket";
 
 const TodoListContext = React.createContext([{}, () => []]);
 
@@ -17,7 +18,7 @@ function TodosComponent() {
     return () => {
       unmounted = true;
     };
-  }, []);
+  }, [todoList]);
 
   const displayCardByStatus = (completeStatus) => {
     return (
@@ -30,8 +31,18 @@ function TodosComponent() {
   };
 
   const getTodos = async () => {
-    let response = await api.getTodo();
-    setTodoList(response.data);
+    if (ios.socket.isConnected()) {
+      ios.socket.get("/tasks", (body) => {
+        if (body.length > 0) {
+          setTodoList(body);
+        }
+      });
+    }
+    ios.socket.on("connect", () => {
+      ios.socket.get("/tasks", (body) => {
+        setTodoList(body);
+      });
+    });
   };
 
   const handleAddiconEvents = (e) => {

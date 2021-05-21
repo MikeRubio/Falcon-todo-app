@@ -9,6 +9,7 @@ function EditableCardComponent({
   description,
   id,
   closeEditing,
+  priority,
 }) {
   const [ediatbleDescription, setEdiatbleDescription] = useState(
     description || ""
@@ -16,6 +17,7 @@ function EditableCardComponent({
   const [editableTitle, setEditableTitle] = useState(title || "");
   const [todoList, setTodoList] = useContext(TodoListContext);
   const [inputError, setInputError] = useState(false);
+  const [editablePriority, setEditablePriority] = useState(priority ?? 0);
 
   const inputTitleRef = useRef();
 
@@ -23,10 +25,11 @@ function EditableCardComponent({
     inputTitleRef.current.focus();
   }, []);
 
-  const createTodo = async (title, description) => {
+  const createTodo = async (title, description, priority) => {
     const result = await api.createTodo({
       title,
       description,
+      priority,
     });
     if (result.status === 200) {
       setTodoList([...todoList, result.data]);
@@ -83,6 +86,17 @@ function EditableCardComponent({
         </div>
       </div>
       <div className="extra content">
+        <select
+          className="ui selection dropdown"
+          value={editablePriority}
+          onChange={(ev) => setEditablePriority(ev.target.value)}
+        >
+          <option value="0">low</option>
+          <option value="1">medium</option>
+          <option value="2">high</option>
+        </select>
+      </div>
+      <div className="extra content">
         <div className="ui two mini buttons">
           <button
             type="submit"
@@ -90,9 +104,18 @@ function EditableCardComponent({
             className={`ui positive button ${editableTitle ? "" : "disabled"}`}
             onClick={() =>
               onUpdating
-                ? (action(id, editableTitle, ediatbleDescription),
+                ? (action(
+                    id,
+                    editableTitle,
+                    ediatbleDescription,
+                    editablePriority
+                  ),
                   closeEditing(false))
-                : createTodo(editableTitle, ediatbleDescription)
+                : createTodo(
+                    editableTitle,
+                    ediatbleDescription,
+                    editablePriority
+                  )
             }
           >
             {onUpdating ? "Edit" : "Create"}

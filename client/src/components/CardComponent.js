@@ -32,10 +32,11 @@ function CardComponent({ filteredTodoList }) {
     }
   };
 
-  const updateTodo = async (id, title, description) => {
+  const updateTodo = async (id, title, description, priority) => {
     const result = await api.updateTodo(id, {
       title,
       description,
+      priority,
     });
     if (result.status === 200) {
       const updated = todoList.map(
@@ -62,62 +63,72 @@ function CardComponent({ filteredTodoList }) {
   };
   return (
     <>
-      {filteredTodoList.map(({ id, title, description, completed }) => {
-        return (
-          <div
-            className={`ui fluid card ${completed ? "green" : "blue"}`}
-            key={id}
-          >
-            {editing === id ? (
-              <EditableCardComponent
-                id={id}
-                title={title}
-                description={description}
-                closeEditing={setEditing}
-                action={updateTodo}
-                onUpdating={true}
-              />
-            ) : (
-              <>
-                <div className="content">
-                  <i
-                    tabIndex="0"
-                    title="Delete"
-                    aria-label="Delete"
-                    className="right floated circular red trash alternate outline icon"
-                    onClick={(e) => handleEvents(e, id, "delete")}
-                    onKeyDown={(e) => handleEvents(e, id, "delete")}
-                  ></i>
-                  <i
-                    tabIndex="0"
-                    title="Edit"
-                    aria-label="Edit"
-                    className="right floated circular blue edit outline icon Change"
-                    onClick={(e) => handleEvents(e, id, "edit")}
-                    onKeyDown={(e) => handleEvents(e, id, "edit")}
-                  ></i>
-                  <i
-                    tabIndex="0"
-                    title={completed ? "Undo" : "Complete"}
-                    aria-label={completed ? "Undo" : "Complete"}
-                    className={`right floated circular ${
-                      completed ? "red redo" : "teal check"
-                    } icon`}
-                    onClick={(e) => handleEvents(e, id, "change", completed)}
-                    onKeyDown={(e) => handleEvents(e, id, "change", completed)}
-                  ></i>
-                  <div className="header" title="title">
-                    {title}
+      {filteredTodoList.map(
+        ({ id, title, description, completed, priority }) => {
+          return (
+            <div
+              className={`ui fluid card ${completed ? "green" : "blue"}`}
+              key={id}
+            >
+              {editing === id ? (
+                <EditableCardComponent
+                  id={id}
+                  title={title}
+                  description={description}
+                  closeEditing={setEditing}
+                  action={updateTodo}
+                  onUpdating={true}
+                  priority={priority}
+                />
+              ) : (
+                <>
+                  <div className="content">
+                    <i
+                      tabIndex="0"
+                      title="Delete"
+                      aria-label="Delete"
+                      className="right floated circular red trash alternate outline icon"
+                      onClick={(e) => handleEvents(e, id, "delete")}
+                      onKeyDown={(e) => handleEvents(e, id, "delete")}
+                    ></i>
+                    <i
+                      tabIndex="0"
+                      title="Edit"
+                      aria-label="Edit"
+                      className="right floated circular blue edit outline icon Change"
+                      onClick={(e) => handleEvents(e, id, "edit")}
+                      onKeyDown={(e) => handleEvents(e, id, "edit")}
+                    ></i>
+                    <i
+                      tabIndex="0"
+                      title={completed ? "Undo" : "Complete"}
+                      aria-label={completed ? "Undo" : "Complete"}
+                      className={`right floated circular ${
+                        completed ? "red redo" : "teal check"
+                      } icon`}
+                      onClick={(e) => handleEvents(e, id, "change", completed)}
+                      onKeyDown={(e) =>
+                        handleEvents(e, id, "change", completed)
+                      }
+                    ></i>
+                    <div className="header" title="title">
+                      {title}
+                    </div>
+                    <div className="description">
+                      <p>{description}</p>
+                    </div>
                   </div>
-                  <div className="description">
-                    <p>{description}</p>
+                  <div className="extra content">
+                    <div className="right floated" aria-label="priority">
+                      {["low", "medium", "high"][priority]}
+                    </div>
                   </div>
-                </div>
-              </>
-            )}
-          </div>
-        );
-      })}
+                </>
+              )}
+            </div>
+          );
+        }
+      )}
     </>
   );
 }

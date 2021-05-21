@@ -16,7 +16,7 @@ const filteredTodoList = [
     id: "02",
     title: "Other Test Tile",
     description: "Other Test Desc",
-    priority: "0",
+    priority: "1",
     completed: true,
     project: null,
   },
@@ -35,4 +35,10 @@ test("should be able to interact with action btn", () => {
 
   const editIcon = screen.queryAllByTitle(/Edit/);
   expect(editIcon.length).toEqual(2);
+});
+
+test("should be able to find ", () => {
+  render(<CardComponent filteredTodoList={filteredTodoList} />);
+  const priorityLabel = screen.getAllByLabelText(/priority/);
+  expect(priorityLabel.length).toEqual(2);
 });
